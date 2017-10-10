@@ -22,7 +22,8 @@
 
 ### - Trade and Trade Lanes:
   Trade lanes are the highways of how resources are shipped around between stations. Trade lanes consist of a set of orders and instructions that dictate how ships should act within the route. Such instructions can consist of picking up or dropping off goods, refuelling, or special conditions if attacked by pirates or any other cosmological event, such as running out of fuel or air mid flight.
-####Features:
+  
+#### Features:
 * Dictate a set of orders and instructions that are interpreted by spaceships within the trade lane
   * Move to destination.
     * At fast or safe directives.
@@ -35,4 +36,15 @@
 * Edit the route.
 
 ### - Manufacturing and Crafting: 
+  Manufacturing and Crafting is done as a process to take one ore more raw products as well as time, and produce that into one (or more) products when the process is completed. This happens through the workshop interface, though other minerals can be mined by specific ships while in space, or through the purchase or renting of areas on space stations. 
+  
+  Discovery within the crafting system also is produced in a dynamic way. You can purchase recipies to certain level items, or discover and improve apon the recipie for better products you can make.
+  
+#### Features:
+* Craft new resources and items within workshops.
+* Items can have levels of quality that allow them to be sold at different prices depending on the type and quality of item.
+* ~~You can sell to certain factions (Earth/Mars/Jupiter's Moons)~~
+* Sell and buy certain items to fill requirements where you cannot manufacture said items.
+* Use a research tree and experimentation to discover new recipies for items.
+
   
