@@ -38,7 +38,7 @@
 ### - Manufacturing and Crafting: 
   Manufacturing and Crafting is done as a process to take one ore more raw products as well as time, and produce that into one (or more) products when the process is completed. This happens through the workshop interface, though other minerals can be mined by specific ships while in space, or through the purchase or renting of areas on space stations. 
   
-  Discovery within the crafting system also is produced in a dynamic way. You can purchase recipies to certain level items, or discover and improve apon the recipie for better products you can make.
+  Discovery within the crafting system also is produced in a dynamic way. You can purchase recipies to certain level items, or discover and improve apon the recipie for better products you can make. These better products can make better high tier products themselves, or sell for higher depending on the object. Discovering new products should come through in game context hints, hopefully.
   
 #### Features:
 * Craft new resources and items within workshops.
@@ -47,4 +47,10 @@
 * Sell and buy certain items to fill requirements where you cannot manufacture said items.
 * Use a research tree and experimentation to discover new recipies for items.
 
+### - Research
+  As defined above, players can research new items through experimentation and educated guesses. They can also hire researchers to develop or discover these new resources.
   
+#### Features:
+ * Hire people to reseach from institutes within Space Stations
+ * Purchase new material recipies from the market as well
+ * Experiment for finding new recipies
