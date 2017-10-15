@@ -11,7 +11,9 @@ REPRESENTATION = {
 }
 
 
-def get_random_station_size():
+def get_random_station_size(size_5_stations_left):
+    if not size_5_stations_left:
+        return random.randint(0, 1) * 2 + 1
     return random.randint(0, 2) * 2 + 1
 
 
@@ -99,6 +101,7 @@ class GameWorld:
     def __init__(
         self,
         num_of_stations=5,
+        max_amount_of_size_5_stations=3,
         num_of_asteroids=5,
         asteroid_sizes=10,
         world_width=50,
@@ -106,6 +109,8 @@ class GameWorld:
         world_padding=2  # space station size / 2 - 1 min
     ):
         self.__num_of_stations = num_of_stations
+        self.__max_amount_of_size_5_stations = max_amount_of_size_5_stations
+        self.__size_5_stations = 0
         self.__num_of_asteroids = num_of_asteroids
         self.__asteroid_field_max_size = asteroid_sizes
         self.__world_width = world_width
@@ -126,9 +131,12 @@ class GameWorld:
         self.__generate_asteroids()
 
     def __generate_stations(self):
+        self.__generate_base_station()
+        self.__generate_random_stations()
+
+    def __generate_base_station(self):
         half_x = math.floor(self.__world_width / 2)
         half_y = math.floor(self.__world_height / 2)
-
         base_station = SpaceStation(
             x=random.randint(half_x - self.__world_padding, half_x + self.__world_padding),
             y=random.randint(half_y - self.__world_padding, half_y + self.__world_padding),
@@ -136,11 +144,12 @@ class GameWorld:
         )
         self.__add_station(base_station)
 
+    def __generate_random_stations(self):
         break_amount = 0
         while len(self.__stations) < self.__num_of_stations and break_amount != 1000:
             x = random.randint(self.__world_padding, self.__world_width - self.__world_padding)
             y = random.randint(self.__world_padding, self.__world_height - self.__world_padding)
-            size = get_random_station_size()
+            size = get_random_station_size(self.__max_amount_of_size_5_stations - self.__size_5_stations)
 
             if self.__is_station_collision(x, y, size):
                 break_amount += 1
@@ -152,6 +161,8 @@ class GameWorld:
         self.__stations.append(station)
         for point in station.station_points:
             self.__game_map[point.x][point.y] = SPACE_STATION
+        if station.size == 5:
+            self.__size_5_stations += 1
 
     def __is_station_collision(self, x, y, size):
         padding = (int((size - 1) / 2) + self.__world_padding)
@@ -217,6 +228,7 @@ class GameWorld:
 if __name__ == '__main__':
     game_world = GameWorld(
         num_of_stations=10,
+        max_amount_of_size_5_stations=2,
         num_of_asteroids=20,
         asteroid_sizes=20,
         world_width=50,
