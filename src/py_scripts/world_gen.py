@@ -131,7 +131,7 @@ class GameWorld:
         self.__generate_asteroids()
 
     def __generate_stations(self):
-        self.__generate_base_station()
+        # self.__generate_base_station()
         self.__generate_random_stations()
 
     def __generate_base_station(self):
@@ -227,13 +227,13 @@ class GameWorld:
 
 if __name__ == '__main__':
     game_world = GameWorld(
-        num_of_stations=10,
-        max_amount_of_size_5_stations=2,
+        num_of_stations=30,
+        max_amount_of_size_5_stations=3,
         num_of_asteroids=20,
-        asteroid_sizes=20,
+        asteroid_sizes=40,
         world_width=50,
-        world_height=50,
-        world_padding=2  # space station size / 2 - 1 min
+        world_height=90,
+        world_padding=3  # space station size / 2 - 1 min
     )
     game_world.generate_game_world()
     game_world.display_world(
