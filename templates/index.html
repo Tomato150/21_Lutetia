@@ -13,6 +13,9 @@
 <body>
     <div id="react-entry" style="padding:0; margin:0;"></div>
 
+    <script id="data">
+        let server_data = {{ data|tojson }};
+    </script>
     <script type="text/javascript" src="{{ url_for('static', filename='bundle.js') }}"></script>
 </body>
 </html>
