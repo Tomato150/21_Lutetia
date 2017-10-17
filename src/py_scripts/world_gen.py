@@ -1,14 +1,7 @@
 import math
 import random
 
-EMPTY_SPACE = 0
-SPACE_STATION = 1
-ASTEROIDS = 2
-REPRESENTATION = {
-    0: '.',
-    1: "X",
-    2: '0'
-}
+from src.py_scripts.data.world_gen import WORLD_GEN_METADATA
 
 
 def get_random_station_size(size_5_stations_left):
@@ -71,11 +64,12 @@ class AsteroidField:
 
             new_point = random.choice(neighbour_points)
 
-            if game_world_points[new_point.x][new_point.y] != EMPTY_SPACE:  # Overlaps another space station or asteroid
+            if game_world_points[new_point.x][new_point.y] != WORLD_GEN_METADATA['EMPTY SPACE']:  # Overlaps another space station or
+            # asteroid
                 continue
 
             self.__asteroid_points.append(new_point)
-            game_world_points[new_point.x][new_point.y] = ASTEROIDS
+            game_world_points[new_point.x][new_point.y] = WORLD_GEN_METADATA['ASTEROIDS']
 
     def __get_neighbour_points(self, game_world_points, world_width, world_height):
         neighbour_points = []
@@ -104,7 +98,7 @@ class GameWorld:
         max_amount_of_size_5_stations=3,
         num_of_asteroids=5,
         asteroid_sizes=10,
-        world_width=50,
+        world_width=100,
         world_height=50,
         world_padding=2  # space station size / 2 - 1 min
     ):
@@ -113,30 +107,32 @@ class GameWorld:
         self.__size_5_stations = 0
         self.__num_of_asteroids = num_of_asteroids
         self.__asteroid_field_max_size = asteroid_sizes
-        self.__world_width = world_width
-        self.__world_height = world_height
+        self.world_width = world_width
+        self.world_height = world_height
         self.__world_padding = world_padding
 
         self.__stations = []
         self.__asteroids = []
-        self.__game_map = {}
+        self.game_map = {}
 
-        for x in range(0, self.__world_width):
-            self.__game_map[x] = {}
-            for y in range(0, self.__world_height):
-                self.__game_map[x][y] = EMPTY_SPACE
+        for x in range(0, self.world_width):
+            self.game_map[x] = {}
+            for y in range(0, self.world_height):
+                self.game_map[x][y] = WORLD_GEN_METADATA['EMPTY SPACE']
 
-    def generate_game_world(self):
+    def generate_game_world(self, return_data=True):
         self.__generate_stations()
         self.__generate_asteroids()
+        if return_data:
+            return self.game_map
 
     def __generate_stations(self):
         # self.__generate_base_station()
         self.__generate_random_stations()
 
     def __generate_base_station(self):
-        half_x = math.floor(self.__world_width / 2)
-        half_y = math.floor(self.__world_height / 2)
+        half_x = math.floor(self.world_width / 2)
+        half_y = math.floor(self.world_height / 2)
         base_station = SpaceStation(
             x=random.randint(half_x - self.__world_padding, half_x + self.__world_padding),
             y=random.randint(half_y - self.__world_padding, half_y + self.__world_padding),
@@ -147,8 +143,8 @@ class GameWorld:
     def __generate_random_stations(self):
         break_amount = 0
         while len(self.__stations) < self.__num_of_stations and break_amount != 1000:
-            x = random.randint(self.__world_padding, self.__world_width - self.__world_padding)
-            y = random.randint(self.__world_padding, self.__world_height - self.__world_padding)
+            x = random.randint(self.__world_padding, self.world_width - self.__world_padding)
+            y = random.randint(self.__world_padding, self.world_height - self.__world_padding)
             size = get_random_station_size(self.__max_amount_of_size_5_stations - self.__size_5_stations)
 
             if self.__is_station_collision(x, y, size):
@@ -160,7 +156,7 @@ class GameWorld:
     def __add_station(self, station):
         self.__stations.append(station)
         for point in station.station_points:
-            self.__game_map[point.x][point.y] = SPACE_STATION
+            self.game_map[point.x][point.y] = WORLD_GEN_METADATA['SPACE STATION']
         if station.size == 5:
             self.__size_5_stations += 1
 
@@ -185,9 +181,9 @@ class GameWorld:
 
         break_amount = 0
         while len(self.__asteroids) < self.__num_of_asteroids and break_amount != 1000:
-            rand_x = random.randint(0, self.__world_width - 1)
-            rand_y = random.randint(0, self.__world_height - 1)
-            if self.__game_map[rand_x][rand_y] != EMPTY_SPACE:
+            rand_x = random.randint(0, self.world_width - 1)
+            rand_y = random.randint(0, self.world_height - 1)
+            if self.game_map[rand_x][rand_y] != WORLD_GEN_METADATA['EMPTY SPACE']:
                 break_amount += 1
             else:
                 asteroid_field = AsteroidField(
@@ -202,8 +198,8 @@ class GameWorld:
 
     def __add_asteroid_field(self, asteroid_field):
         self.__asteroids.append(asteroid_field)
-        self.__game_map[asteroid_field.initial_point.x][asteroid_field.initial_point.y] = ASTEROIDS
-        asteroid_field.gen_new_points(self.__game_map, self.__world_width, self.__world_height)
+        self.game_map[asteroid_field.initial_point.x][asteroid_field.initial_point.y] = WORLD_GEN_METADATA['ASTEROIDS']
+        asteroid_field.gen_new_points(self.game_map, self.world_width, self.world_height)
 
     def display_world(
         self,
@@ -211,32 +207,15 @@ class GameWorld:
         show_stations=True
     ):
         string = ""
-        for x in range(0, self.__world_width):
-            for y in range(0, self.__world_height):
-                tile_type = self.__game_map[x][y]
-                if not show_asteroids and tile_type == ASTEROIDS:
+        for y in range(0, self.world_height):  # Y first due to the way the string is formatted.
+            for x in range(0, self.world_width):
+                tile_type = self.game_map[x][y]
+                if not show_asteroids and tile_type == WORLD_GEN_METADATA['ASTEROIDS']:
                     string += ". "
-                elif not show_stations and tile_type == SPACE_STATION:
+                elif not show_stations and tile_type == WORLD_GEN_METADATA['SPACE STATION']:
                     string += ". "
                 else:
-                    string += REPRESENTATION[tile_type] + " "
+                    string += WORLD_GEN_METADATA['REPRESENTATION'][tile_type] + " "
 
             string += '\n'
         print(string)
-
-
-if __name__ == '__main__':
-    game_world = GameWorld(
-        num_of_stations=30,
-        max_amount_of_size_5_stations=3,
-        num_of_asteroids=20,
-        asteroid_sizes=40,
-        world_width=50,
-        world_height=90,
-        world_padding=3  # space station size / 2 - 1 min
-    )
-    game_world.generate_game_world()
-    game_world.display_world(
-        show_asteroids=True,
-        show_stations=True
-    )
