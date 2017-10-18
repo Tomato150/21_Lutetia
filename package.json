@@ -32,6 +32,7 @@
     "react-pixi": "^0.9.15",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "semantic-ui-react": "^0.75.0"
   }
 }
