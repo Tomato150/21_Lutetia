@@ -25,7 +25,12 @@ export default class GameMap extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            animationCallback: null
+            animationCallback: null,
+            dragged: false,
+            mouseInfo: {
+                currentX: null,
+                currentY: null
+            }
         };
     }
 
@@ -54,14 +59,59 @@ export default class GameMap extends Component {
         this.stage = new PIXI.Container();
         this.stage.interactive = true;
 
+        this.stage
+            .on('mousedown', event => {
+                console.log(event);
+                this.setState({
+                    down: true,
+                    dragged: false,
+                    mouseInfo: {
+                        currentX: event.data.global.x,
+                        currentY: event.data.global.y
+                    }
+                });
+            })
+            .on('mousemove', event => {
+                if (this.state.down) {
+                    let {mouseInfo} = this.state;
+
+                    let mouse_x = event.data.global.x,
+                        mouse_y = event.data.global.y;
+
+                    let adjusted_x = mouse_x - mouseInfo.currentX,
+                        adjusted_y = mouse_y - mouseInfo.currentY;
+
+                    let position = this.stage.position;
+                    this.stage.position.set(position.x + adjusted_x, position.y + adjusted_y);
+
+                    this.setState({
+                        dragged: true,
+                        mouseInfo: {
+                            currentX: event.data.global.x,
+                            currentY: event.data.global.y
+                        }
+                    });
+                }
+            })
+            .on('mouseup', event => {
+                this.setState({
+                    down: false,
+                    dragged: false
+                });
+            });
+
         this.stage.interactiveChildren = true;
 
-        function makeNewSpriteTemplate(texture, name) {
+        function makeNewSpriteTemplate(texture, name, parent) {
             return (function (x, y) {
                 let sprite = new PIXI.Sprite(texture);
                 sprite.interactive = true;
-                sprite.on('mousedown', () => {
-                    console.log(name + " HIT AT (" + x + ", " + y + ')')
+                sprite.on('click', () => {
+                    if (parent.state.dragged) {
+                        console.log("WAS DRAGGED!")
+                    } else {
+                        console.log(name + " HIT AT (" + x + ", " + y + ')')
+                    }
                 });
 
                 sprite.position.set(x*metadata['TILE SIZE'], y*metadata['TILE SIZE']);
@@ -75,7 +125,8 @@ export default class GameMap extends Component {
         const
             emptySpace = makeNewSpriteTemplate(
                 this.loader.resources.empty.texture,
-                "EMPTY SPACE"
+                "EMPTY SPACE",
+                this
             ),
             size1Station = makeNewSpriteTemplate(
                 this.loader.resources.size_1.texture,
@@ -83,15 +134,18 @@ export default class GameMap extends Component {
             ),
             size3Station = makeNewSpriteTemplate(
                 this.loader.resources.size_3.texture,
-                "SIZE 3 STATION"
+                "SIZE 3 STATION",
+                this
             ),
             size5Station = makeNewSpriteTemplate(
                 this.loader.resources.size_5.texture,
-                "SIZE 5 STATION"
+                "SIZE 5 STATION",
+                this
             ),
             asteroidField = makeNewSpriteTemplate(
                 this.loader.resources.asteroid_field.texture,
-                "ASTEROID FIELD"
+                "ASTEROID FIELD",
+                this
             );
 
         console.log("FINISHED MAKING RESOURCE FUNCTIONS, MAKING GAME TILES");
