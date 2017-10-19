@@ -20,9 +20,17 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(png|jpg|jpeg)?$/,
+                test: /\.(woff|woff2|eot|ttf)?$/,
+                loader: "url-loader"
+            },
+            {
+                test: /\.(png|jpg|jpeg|svg)?$/,
                 loader: "file-loader?name=images/[name].[ext]"
             },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader"
+            }
         ]
     },
     plugins: [],
