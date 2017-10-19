@@ -22,7 +22,7 @@ export default class GameMap extends Component {
         height: window.innerHeight
     };
 
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {
             animationCallback: null,
@@ -39,7 +39,7 @@ export default class GameMap extends Component {
         return <div ref="gameCanvas"/>
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this.canvas = this.refs.gameCanvas;
         this.loader = new PIXI.loaders.Loader();
         this.loader
@@ -186,7 +186,7 @@ export default class GameMap extends Component {
             }
         }
 
-        const animateCallback = function () {
+        const animateCallback = function() {
             this.setState({
                 animationCallback: requestAnimationFrame(animateCallback)
             });
@@ -203,7 +203,7 @@ export default class GameMap extends Component {
         // Stick stuff here for game loop ticks
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         let {animationCallback} = this.state;
         if (animationCallback !== null) {
             cancelAnimationFrame(animationCallback)
