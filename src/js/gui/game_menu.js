@@ -28,34 +28,26 @@ export default class GameMenu extends Component {
                     onClick={this.changeVisibility}
                     style={{
                         position: 'fixed',
-                        left: '10px',
-                        top: '10px',
-                        'z-index': '1'
+                        bottom: '10px',
+                        right: '10px',
+                        zIndex: '1'
                     }}
                 >
-                    Baby alert here
+                    Open side menu
                 </Button>
-                <Sidebar.Pushable as={Segment}>
+                <Sidebar.Pushable
+                    style={{
+                        padding: 0
+                    }}
+                >
                     <Sidebar
-                        as={Menu}
-                        animation='push'
-                        width='thin'
+                        animation='overlay'
                         visible={visible}
                         icon='labeled'
                         vertical inverted
+                        className="custom"
                     >
-                        <Menu.Item name='home'>
-                            <Icon name='home'/>
-                            Home
-                        </Menu.Item>
-                        <Menu.Item name='gamepad'>
-                            <Icon name='gamepad'/>
-                            Games
-                        </Menu.Item>
-                        <Menu.Item name='camera'>
-                            <Icon name='camera'/>
-                            Channels
-                        </Menu.Item>
+
                     </Sidebar>
                     <Sidebar.Pusher>
                         {children}

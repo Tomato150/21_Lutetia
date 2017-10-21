@@ -10,12 +10,12 @@ app = Flask(__name__)
 @app.route('/')
 def hello_world():
     world = world_gen.GameWorld(
-        num_of_stations=8,
-        max_amount_of_size_5_stations=1,
-        num_of_asteroids=10,
-        asteroid_sizes=20,
-        world_width=30,
-        world_height=30,
+        num_of_stations=20,
+        max_amount_of_size_5_stations=4,
+        num_of_asteroids=20,
+        asteroid_sizes=40,
+        world_width=100,
+        world_height=100,
         world_padding=3
     )
     world.generate_game_world()

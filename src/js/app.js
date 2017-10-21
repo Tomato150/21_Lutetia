@@ -10,6 +10,7 @@ import AppReducer from './reducers/index';
 // import {trial} from './actions/index';
 
 import 'semantic-ui-css/semantic.min.css';
+import '../css/sidebar.css'
 
 import GameMap from './gui/game_map';
 import GameMenu from './gui/game_menu';
@@ -31,8 +32,8 @@ class App extends Component {
                     <GameMap
                         data={world}
                         metadata={world_metadata}
-                        width={world_metadata['TILE SIZE'] * world_metadata['WORLD WIDTH']}
-                        height={world_metadata['TILE SIZE'] * world_metadata['WORLD HEIGHT']}
+                        // width={world_metadata['TILE SIZE'] * world_metadata['WORLD WIDTH']}
+                        // height={world_metadata['TILE SIZE'] * world_metadata['WORLD HEIGHT']}
                     />
                 </GameMenu>
             </div>

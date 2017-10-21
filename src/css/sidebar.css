@@ -1,0 +1,8 @@
+.ui.custom.sidebar {
+    width: 32% !important;
+}
+
+.ui.visible.left.custom.sidebar~.fixed, .ui.visible.left.custom.sidebar~.pusher {
+    -webkit-transform: translate3d(32%,0,0) !important;
+    transform: translate3d(32%,0,0) !important;
+}
