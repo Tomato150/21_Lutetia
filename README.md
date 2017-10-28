@@ -72,7 +72,7 @@ The game map is an interactive visual representation of the space that the game 
 ### - Game Menu:
 This is where major interactions take place within the game. Through this menu, players can interact with trade lanes, space stations, and all other various objects of the game. This will be dynamic to the selected type of data being viewed, and hence will change with context.
 
-####Features:
+#### Features:
 * Dynamic display of information dependant on type of object selected
 * For Space Station: (On click of relevant information, modal or expansion of element should happen to provide more detail.)
   * Trade:
@@ -96,19 +96,17 @@ This is where major interactions take place within the game. Through this menu, 
   
 ## Graphics Requirements:
 ### - For Space Stations / Game Map:
-####Necessary metadata: 
+#### Necessary metadata: 
 * Size for a 1 x 1 tile: 25 x 25 px. 
 * 'Size' of a pixel: 4 x 4 px. (Tiles are scaled up for cleaner zooms)
 * Adjusted size of a tile: 100 x 100 px
 
-####Space and Space Station Tile Assets:
-* Empty Space (Complete-ish, more needed): [Empty Space](/docs/empty_space.png)
-* Size 1 Station (Complete): [Size 1 Space Station](/docs/size_1.png)
+#### Space and Space Station Tile Assets:
+* Empty Space (Complete-ish, more needed): ![Empty Space](/docs/empty_space.png)
+* Size 1 Station (Complete): ![Size 1 Space Station](/docs/size_1.png)
 * Size 3 Station (WIP):
 * Size 5 Station:
 * Asteroid Belt:
 
 #### Trade Lane Tile Assets
 * Trade lane (Tiling sprite):
-
-  
