@@ -102,11 +102,11 @@ This is where major interactions take place within the game. Through this menu, 
 * Adjusted size of a tile: 100 x 100 px
 
 #### Space and Space Station Tile Assets:
-* Empty Space (Complete-ish, more needed): ![Empty Space](/docs/empty_space.png)
-* Size 1 Station (Complete): ![Size 1 Space Station](/docs/size_1.png)
-* Size 3 Station (WIP):
-* Size 5 Station:
-* Asteroid Belt:
+* ![Empty Space](/docs/empty_space.png) Empty Space (Complete-ish, more needed)
+* ![Size 1 Space Station](/docs/size_1.png) Size 1 Station (Complete)
+* Size 3 Station (WIP)
+* Size 5 Station
+* Asteroid Belt
 
 #### Trade Lane Tile Assets
-* Trade lane (Tiling sprite):
+* Trade lane (Tiling sprite)
