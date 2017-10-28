@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {Button, Icon, Menu, Segment, Sidebar} from 'semantic-ui-react';
+import {Button, Header, Icon, Grid, Segment, Sidebar} from 'semantic-ui-react';
 // import PropTypes from 'prop-types';
 
 
 export default class GameMenu extends Component {
     constructor(props) {
         super(props);
-        this.state = {visible: false};
+        this.state = {visible: true};
         this.changeVisibility = this.changeVisibility.bind(this);
     }
 
@@ -41,13 +41,39 @@ export default class GameMenu extends Component {
                     }}
                 >
                     <Sidebar
+                        style={{
+                            margin: '20px'
+                        }}
+                        as={Segment}
                         animation='overlay'
                         visible={visible}
                         icon='labeled'
-                        vertical inverted
-                        className="custom"
+                        width="very wide"
+                        inverted
                     >
-
+                        <Segment attached="top" clearing>
+                            <Header as="h1" floated="left">!STATION_NAME</Header>
+                            <Header as="h5" floated="right">!COORDS (XX, YY)</Header>
+                        </Segment>
+                        <Grid
+                            as={Segment}
+                            attached
+                            divided
+                        >
+                            <Grid.Row columns>
+                                <Grid.Column width={8}>
+                                    Test Col 1: (Width 8)
+                                </Grid.Column>
+                                <Grid.Column width={8}>
+                                    Test Col 2: (Width 8)
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Grid.Column>
+                                    Test Row 2
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
                     </Sidebar>
                     <Sidebar.Pusher>
                         {children}

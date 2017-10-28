@@ -1,8 +1,12 @@
-.ui.custom.sidebar {
-    width: 32% !important;
+:root {
+    --very-wide: 40%
 }
 
-.ui.visible.left.custom.sidebar~.fixed, .ui.visible.left.custom.sidebar~.pusher {
-    -webkit-transform: translate3d(32%,0,0) !important;
-    transform: translate3d(32%,0,0) !important;
+.ui.very.wide.sidebar {
+    width: var(--very-wide) !important;
+}
+
+.ui.visible.left.very.wide.sidebar~.fixed, .ui.visible.left.very.wide.sidebar~.pusher {
+    -webkit-transform: translate3d(var(--very-wide),0,0) !important;
+    transform: translate3d(var(--very-wide),0,0) !important;
 }
