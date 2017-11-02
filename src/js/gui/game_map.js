@@ -40,7 +40,9 @@ export default class GameMap extends Component {
     }
 
     componentDidMount() {
-        this.canvas = this.refs.gameCanvas;
+        const {gameCanvas} = this.refs;
+
+        this.canvas = gameCanvas;
         this.loader = new PIXI.loaders.Loader();
         this.loader
             .add('empty', EmptyTile)
@@ -52,64 +54,20 @@ export default class GameMap extends Component {
     }
 
     loaderInit () {
-        const {width, height, data, metadata} = this.props;
+        const {width, height, metadata} = this.props;
         this.renderer = PIXI.autoDetectRenderer(width, height);
 
         this.canvas.appendChild(this.renderer.view);
         this.stage = new PIXI.Container();
-        this.stage.interactive = true;
 
-        this.stage
-            .on('mousedown', event => {
-                console.log(event);
-                this.setState({
-                    down: true,
-                    dragged: false,
-                    mouseInfo: {
-                        currentX: event.data.global.x,
-                        currentY: event.data.global.y
-                    }
-                });
-            })
-            .on('mousemove', event => {
-                if (this.state.down) {
-                    let {mouseInfo} = this.state;
-
-                    let mouse_x = event.data.global.x,
-                        mouse_y = event.data.global.y;
-
-                    let adjusted_x = mouse_x - mouseInfo.currentX,
-                        adjusted_y = mouse_y - mouseInfo.currentY;
-
-                    let position = this.stage.position;
-                    this.stage.position.set(position.x + adjusted_x, position.y + adjusted_y);
-
-                    this.setState({
-                        dragged: true,
-                        mouseInfo: {
-                            currentX: event.data.global.x,
-                            currentY: event.data.global.y
-                        }
-                    });
-                }
-            })
-            .on('mouseup', event => {
-                this.setState({
-                    down: false,
-                    dragged: false
-                });
-            });
-
-        this.stage.interactiveChildren = true;
+        this.initializeStage();
 
         function makeNewSpriteTemplate(texture, name, parent) {
             return (function (x, y) {
                 let sprite = new PIXI.Sprite(texture);
                 sprite.interactive = true;
                 sprite.on('click', () => {
-                    if (parent.state.dragged) {
-                        console.log("WAS DRAGGED!")
-                    } else {
+                    if (!parent.state.dragged) {
                         console.log(name + " HIT AT (" + x + ", " + y + ')')
                     }
                 });
@@ -119,72 +77,37 @@ export default class GameMap extends Component {
             })
         }
 
-
-        console.log("STARTED MAKING RESOURCE FUNCTIONS");
+        const {empty, size_1, size_3, size_5, asteroid_field} = this.loader.resources;
 
         const
             emptySpace = makeNewSpriteTemplate(
-                this.loader.resources.empty.texture,
+                empty.texture,
                 "EMPTY SPACE",
                 this
             ),
             size1Station = makeNewSpriteTemplate(
-                this.loader.resources.size_1.texture,
+                size_1.texture,
                 "SIZE 1 STATION"
             ),
             size3Station = makeNewSpriteTemplate(
-                this.loader.resources.size_3.texture,
+                size_3.texture,
                 "SIZE 3 STATION",
                 this
             ),
             size5Station = makeNewSpriteTemplate(
-                this.loader.resources.size_5.texture,
+                size_5.texture,
                 "SIZE 5 STATION",
                 this
             ),
             asteroidField = makeNewSpriteTemplate(
-                this.loader.resources.asteroid_field.texture,
+                asteroid_field.texture,
                 "ASTEROID FIELD",
                 this
             );
 
-        console.log("FINISHED MAKING RESOURCE FUNCTIONS, MAKING GAME TILES");
+        this.gameSprites = {emptySpace, size1Station, size3Station, size5Station, asteroidField};
 
-        console.log(data);
-        for (let x=0; x < metadata['WORLD WIDTH']; x++) {
-            for (let y=0; y < metadata['WORLD HEIGHT']; y++) {
-                let tile = data[x][y];
-                switch (tile) {
-                    case (metadata['EMPTY SPACE']):
-                        this.stage.addChild(emptySpace(x, y));
-                        break;
-                    case (metadata['SPACE STATION']):
-                        if (
-                            data[x-1][y] !== metadata['SPACE STATION'] &&
-                            data[x][y-1] !== metadata['SPACE STATION']
-                        ) {
-                            if (data[x+1][y] !== metadata['SPACE STATION']) {
-                                this.stage.addChild(size1Station(x, y));
-                            }
-                            else if (
-                                data[x+2][y] === metadata['SPACE STATION'] &&
-                                data[x+3][y] !== metadata['SPACE STATION']
-                            ) {
-                                this.stage.addChild(size3Station(x, y))
-                            }
-                            else {
-                                this.stage.addChild(size5Station(x, y))
-                            }
-                        }
-                        break;
-                    case (metadata['ASTEROIDS']):
-                        this.stage.addChild(asteroidField(x, y));
-                        break;
-                    default:
-                        console.log("ERROR:", tile);
-                }
-            }
-        }
+        this.drawStage();
 
         const animateCallback = function() {
             this.setState({
@@ -197,6 +120,96 @@ export default class GameMap extends Component {
         this.setState({
             animationCallback: requestAnimationFrame(animateCallback)
         });
+    }
+
+    initializeStage() {
+        this.stage.interactiveChildren = true;
+        this.stage.interactive = true;
+
+        this.stage
+            .on('mousedown', event => {
+                const {data} = event;
+                this.setState({
+                    down: true,
+                    dragged: false,
+                    mouseInfo: {
+                        currentX: data.global.x,
+                        currentY: data.global.y
+                    }
+                });
+            })
+            .on('mousemove', event => {
+                const {data} = event;
+                if (this.state.down) {
+                    let {mouseInfo} = this.state;
+
+                    let mouse_x = data.global.x,
+                        mouse_y = data.global.y;
+
+                    let adjusted_x = mouse_x - mouseInfo.currentX,
+                        adjusted_y = mouse_y - mouseInfo.currentY;
+
+                    let position = this.stage.position;
+                    this.stage.position.set(position.x + adjusted_x, position.y + adjusted_y);
+
+                    this.setState({
+                        dragged: true,
+                        mouseInfo: {
+                            currentX: data.global.x,
+                            currentY: data.global.y
+                        }
+                    });
+                }
+            })
+            .on('mouseup', event => {
+                this.setState({
+                    down: false,
+                    dragged: false
+                });
+            });
+    }
+
+    drawStage() {
+        const {metadata, data} = this.props;
+
+        for (let x=0; x < metadata['WORLD WIDTH']; x++) {
+            for (let y=0; y < metadata['WORLD HEIGHT']; y++) {
+                let tile = data[x][y];
+
+                switch (tile) {
+                    case (metadata['EMPTY SPACE']):
+                        this.stage.addChild(this.gameSprites.emptySpace(x, y));
+                        break;
+
+                    case (metadata['SPACE STATION']):
+                        if (
+                            data[x-1][y] !== metadata['SPACE STATION'] &&
+                            data[x][y-1] !== metadata['SPACE STATION']
+                        ) {
+                            if (data[x+1][y] !== metadata['SPACE STATION']) {
+                                this.stage.addChild(this.gameSprites.size1Station(x, y));
+                            }
+                            else if (
+                                data[x+2][y] === metadata['SPACE STATION'] &&
+                                data[x+3][y] !== metadata['SPACE STATION']
+                            ) {
+                                this.stage.addChild(this.gameSprites.size3Station(x, y))
+                            }
+                            else {
+                                this.stage.addChild(this.gameSprites.size5Station(x, y))
+                            }
+                        }
+                        break;
+
+                    case (metadata['ASTEROIDS']):
+                        this.stage.addChild(this.gameSprites.asteroidField(x, y));
+                        break;
+
+                    default:
+                        console.log("ERROR:", tile);
+                }
+            }
+        }
     }
 
     gameLoop() {

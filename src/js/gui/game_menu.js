@@ -60,7 +60,7 @@ export default class GameMenu extends Component {
                             attached
                             divided
                         >
-                            <Grid.Row columns>
+                            <Grid.Row>
                                 <Grid.Column width={8}>
                                     Test Col 1: (Width 8)
                                 </Grid.Column>

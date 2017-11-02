@@ -7,8 +7,8 @@ from src.py_scripts.data.world_gen import WORLD_GEN_METADATA
 app = Flask(__name__)
 
 
-@app.route('/')
-def hello_world():
+@app.route('/get_world')
+def get_world():
     world = world_gen.GameWorld(
         num_of_stations=20,
         max_amount_of_size_5_stations=4,
@@ -26,21 +26,21 @@ def hello_world():
         "WORLD HEIGHT": world.world_height
     })
 
-    return render_template('index.html', data={
-        'world': world.game_map,
-        'world_metadata': metadata
-    })
+    return json.jsonify(
+        world=world.game_map,
+        world_metadata=metadata
+    )
 
 
-@app.route('/images/<path:path>')
+@app.route('/assets/<path:path>')
 def get_assets(path):
-    return send_from_directory('static/images', path)
+    return send_from_directory('static/assets', path)
 
 
 if __name__ == '__main__':
     print(" * Running on http://" + socket.gethostbyname(socket.gethostname()) + ":5000/")
     print(" * Running on http://localhost:5000/")
     app.run(
-        debug=True,
+        debug=False,
         host='0.0.0.0',
     )

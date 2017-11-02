@@ -4,10 +4,10 @@ module.exports = {
         "./src/js/app.js"
     ],
     output: {
-        path: __dirname + '/static',
+        path: './static',
         filename: "bundle.js"
     },
-    // devtool: "source-map",
+    devtool: "source-map",
     module: {
         loaders: [
             {
@@ -20,16 +20,16 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(woff|woff2|eot|ttf)?$/,
-                loader: "url-loader"
-            },
-            {
                 test: /\.( ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)?$/,
-                loader: "file-loader?name=images/[name].[ext]"
+                loader: "url-loader"
             },
             {
                 test: /\.css$/,
                 loader: "style-loader!css-loader"
+            },
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
             }
         ]
     },
