@@ -2,10 +2,16 @@
 ###### A space trading game
 
 ## To get running from source:
+
+Inital setup here:
+
 1. Unpack the zip to desired location. 
 2. Change directory to the extracted folder, i.e. `cd C:\path\to\21_lutetia`
 3. `npm install` installs all the necessary JS packages. 
 4. `pip install -r requirements.txt` installs all necessary Python packages.
+
+And do this every time you wish to launch:
+
 5. `webpack` bundles the code from source
 6. `python main.py` launches dev server.
 7. `npm run start` runs the electron shell for the game
