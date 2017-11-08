@@ -7,7 +7,8 @@
 3. `npm install` installs all the necessary JS packages. 
 4. `pip install -r requirements.txt` installs all necessary Python packages.
 5. `webpack` bundles the code from source
-6. `npm run start` runs the electron shell for the game
+6. `python main.py` launches dev server.
+7. `npm run start` runs the electron shell for the game
 
 ## Introduction
 
