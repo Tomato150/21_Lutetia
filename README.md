@@ -1,6 +1,16 @@
 # 21 Lutetia
 ###### A space trading game
 
+## To get running from source:
+1. Unpack the zip to desired location. 
+2. Change directory to the extracted folder, i.e. `cd C:\path\to\21_lutetia`
+3. `npm install` installs all the necessary JS packages. 
+4. `pip install -r requirements.txt` installs all necessary Python packages.
+5. `webpack` bundles the code from source
+6. `npm run start` runs the electron shell for the game
+
+## Introduction
+
   Lutetia is a game based around intergalactic trade and manufacturing within an asteroid belt. In the distant future, economic leftists enforce strict restrictions on Earth and the colonies, preventing large monopolies and profit margins to be retained by one corporation. Due to this, many fled the harsh restrictions and set up shop within the asteroid belt between Mars and Jupiter. 
 
   The companies that did flee the jurisdiction of the planetary governments profited insanely from the rich asteroids and all their harvest. While living off a planet did bring harsh struggles of their own, it did not distract many people coming to get rich, and quickly. Many trade companies, merchants, entrepreneurs.
